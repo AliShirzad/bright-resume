@@ -41,6 +41,7 @@ export type BackgroundInfoProps = {
   onDecrease: (id: string) => void;
 };
 
+<<<<<<< HEAD
 export type AboutMeProps = {
   header: TextFieldProps;
   description: TextAreaProps;
@@ -52,3 +53,25 @@ export type SliderProps = React.InputHTMLAttributes<HTMLInputElement> & {
   onChange: ChangeEventHandler<HTMLInputElement>;
 };
 
+=======
+export enum ThemeColor {
+  blue = "blue",
+  green = "green",
+  purple = "purple",
+  gold = "gold",
+  grey = "grey",
+}
+
+export enum FontWeight {
+  semiBold = "semiBold",
+  bold = "bold",
+  regular = "regular",
+  medium = "medium",
+  light = "light",
+}
+
+export enum FontFamily {
+  sansSerif = "sansSerif",
+  montserrat = "montserrat",
+}
+>>>>>>> 27cf948 (refactor(theme provider): some change)
