@@ -41,6 +41,11 @@ export type BackgroundInfoProps = {
   onDecrease: (id: string) => void;
 };
 
+export type AboutMeProps = {
+  header: TextFieldProps;
+  description: TextAreaProps;
+};
+
 export type SliderProps = React.InputHTMLAttributes<HTMLInputElement> & {
   rootClassName?: string;
   label?: string;
