@@ -9,6 +9,7 @@ export type TypographyProps<T extends React.ElementType> = {
   variant?: TypographyVariant;
   children?: React.ReactNode;
   className?: string;
+  rootClassName?: string;
 } & React.ComponentPropsWithoutRef<T>;
 
 export const Typography = <T extends React.ElementType = "p">({
@@ -16,6 +17,7 @@ export const Typography = <T extends React.ElementType = "p">({
   component,
   children,
   className,
+  rootClassName = "",
   ...props
 }: TypographyProps<T>) => {
   const getComponent = (): React.ElementType => {
@@ -40,7 +42,11 @@ export const Typography = <T extends React.ElementType = "p">({
   });
 
   return (
-    <div className={classes.root}>
+    <div
+      className={cls(classes.root, {
+        [rootClassName]: !!rootClassName,
+      })}
+    >
       <Component className={rootClasses} {...props}>
         {children}
       </Component>
