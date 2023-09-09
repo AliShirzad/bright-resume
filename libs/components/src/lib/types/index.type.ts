@@ -11,6 +11,27 @@ export type TypographyVariant =
   | "h8"
   | "h9";
 
+  export enum ThemeColor {
+    blue = "blue",
+    green = "green",
+    purple = "purple",
+    gold = "gold",
+    grey = "grey",
+  }
+  
+  export enum FontWeight {
+    semiBold = "semiBold",
+    bold = "bold",
+    regular = "regular",
+    medium = "medium",
+    light = "light",
+  }
+  
+  export enum FontFamily {
+    sansSerif = "sansSerif",
+    montserrat = "montserrat",
+  }
+
 export type TextAreaProps =
   React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
     variant?: TypographyVariant;
@@ -41,7 +62,6 @@ export type BackgroundInfoProps = {
   onDecrease: (id: string) => void;
 };
 
-<<<<<<< HEAD
 export type AboutMeProps = {
   header: TextFieldProps;
   description: TextAreaProps;
@@ -52,26 +72,3 @@ export type SliderProps = React.InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
   onChange: ChangeEventHandler<HTMLInputElement>;
 };
-
-=======
-export enum ThemeColor {
-  blue = "blue",
-  green = "green",
-  purple = "purple",
-  gold = "gold",
-  grey = "grey",
-}
-
-export enum FontWeight {
-  semiBold = "semiBold",
-  bold = "bold",
-  regular = "regular",
-  medium = "medium",
-  light = "light",
-}
-
-export enum FontFamily {
-  sansSerif = "sansSerif",
-  montserrat = "montserrat",
-}
->>>>>>> 27cf948 (refactor(theme provider): some change)

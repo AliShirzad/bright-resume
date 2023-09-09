@@ -7,3 +7,4 @@ export * from "./lib/Icons";
 export * from "./lib/Typography";
 export * from "./lib/Slider";
 export * from "./lib/Theme";
+export * from "./lib/Slider";

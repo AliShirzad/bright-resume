@@ -1,100 +1,116 @@
-// test for slider
-import { faker } from "@faker-js/faker";
-import { render, screen } from "@testing-library/react";
+import "@testing-library/jest-dom";
+import { fireEvent, render, screen } from "@testing-library/react";
 import user from "@testing-library/user-event";
 import { Slider } from "./index";
 
-// Test description: RangeInput component
-
-// Given a RangeInput component
-// When rendered with a theme and variant
-// And with a minimum value, maximum value, step, label, and marks
-// Then it should render a range input with the correct props
-// And the input should update its value when the user moves the slider
-// And the input should call the onChange callback when its value changes
-// And the input should display the correct label and marks
-// And the input should be disabled when the disabled prop is true
-
-const mockedOnChange = jest.fn();
-
-const renderComponent = () => {
-  const { baseElement } = render(
-    <Slider onChange={mockedOnChange} value={0} />
-  );
-  return { baseElement };
-};
-
 describe("Slider Component", () => {
   it("should render successfully", () => {
-    const { baseElement } = renderComponent();
-    const slider = screen.getByRole("slider");    
+    const mockedOnChange = jest.fn();
+    render(
+      <Slider
+        onChange={mockedOnChange}
+        label="test"
+        marks={[{ label: "test", value: 1 }]}
+      />
+    );
+    const slider = screen.getByRole("slider");
     expect(slider).toBeInTheDocument();
     expect(slider).toHaveAttribute("type", "range");
-    expect(baseElement).toBeTruthy();
   });
 
-  it("updates input value when user moves the slider", () => {
-    const { baseElement } = renderComponent();    
+  it("updates input value when user moves the slider", async () => {
+    user.setup();
+    const mockedOnChange = jest.fn();
+    render(<Slider onChange={mockedOnChange} label="test" />);
+
     const input = screen.getByRole("slider");
-    
+    await user.type(input, "50");
+    expect(input).toBeDefined();
+    expect(input).toHaveValue("50");
+  });
 
-    await drag(slider, {
-      delta: {x: -100, y: 0},
-    })
+  it("should call onChange when user moves the slider", async () => {
+    user.setup();
+    const mockedOnChange = jest.fn();
+    render(<Slider onChange={mockedOnChange} value={0} />);
 
-  // it("should render successfully", () => {
-  //   const { baseElement } = renderComponent();
-  //   const slider = screen.getByRole("slider");
-  //   expect(slider).toBeInTheDocument();
-  //   expect(slider).toHaveAttribute("type", "range");
-  //   expect(baseElement).toBeTruthy();
-  // });
+    const input = await screen.findByRole("slider");
+    expect(input).toBeDefined();
+    expect((input as HTMLInputElement).value).toBe("0");
+    await fireEvent.change(input, { target: { value: "50" } });
+    expect(mockedOnChange).toHaveBeenCalledTimes(1);
+  });
 
-  // it("shows input value after user type something", async () => {
-  //   const RANGE = faker.datatype.number({ min: 0, max: 100 });
-  //   renderComponent();
-  //   const input = screen.getByRole("slider") as HTMLInputElement;
-  //   await user.click(input);
-  //   expect(input).toBeDefined();
-  //   expect((input as HTMLInputElement).value).toBe(RANGE);
-  //   expect(mockedOnChange).toHaveBeenCalled();
-  //   expect(mockedOnChange).toHaveBeenCalledTimes(RANGE);
-  // });
+  it("should have lable", () => {
+    const mockedOnChange = jest.fn();
+    render(<Slider onChange={mockedOnChange} label="test" />);
+    const label = screen.getByLabelText("test");
+    expect(label).toBeInTheDocument();
+    expect(label).toHaveTextContent("test");
+  });
 
-  // // ------------------------------
-  // // ------------------------------
-  // // ------------------------------
+  it("should have marks", () => {
+    const mockedOnChange = jest.fn();
+    render(
+      <Slider
+        onChange={mockedOnChange}
+        label="test"
+        marks={[{ label: "test", value: 0 }]}
+      />
+    );
+    const mark = screen.getByText("test");
+    expect(mark).toBeInTheDocument();
+  });
+  it("should have min and max values", () => {
+    const mockedOnChange = jest.fn();
+    render(
+      <Slider
+        onChange={mockedOnChange}
+        label="test"        
+        min={0}
+        max={100}
+      />
+    );
+    const input = screen.getByRole("slider");
+    expect(input).toHaveAttribute("min", "0");
+    expect(input).toHaveAttribute("max", "100");
+  });
 
-  // it("updates input value when user moves the slider", async () => {
-  //   const RANGE = faker.datatype.number({ min: 0, max: 100 });
-  //   const mockedOnChange = jest.fn();
-  //   renderComponent();
-  //   const input = screen.getByRole("slider");
-  //   await user.click(input);
-  //   await user.type(input, "{arrowright}", {
-  //     pointerState: {
-  //       pointer: {
+  it("should have step", () => {
+    const mockedOnChange = jest.fn();
+    render(
+      <Slider
+        onChange={mockedOnChange}
+        label="test"        
+        step={10}
+      />
+    );
+    const input = screen.getByRole("slider");
+    expect(input).toHaveAttribute("step", "10");
+  });
 
-  //       },
-  //       type: "mouse",
-  //     },
-  //   });
-  //   expect(input).toBeDefined();
-  //   expect((input as HTMLInputElement).value).toBe(String(RANGE));
-  //   expect(mockedOnChange).toHaveBeenCalled();
-  //   expect(mockedOnChange).toHaveBeenCalledTimes(RANGE);
-  // });
-
-  // it("shows input value after user types something", async () => {
-  //   const TEXT = faker.word.noun();
-  //   const mockedOnChange = jest.fn();
-  //   render(<RangeInput onChange={mockedOnChange} />);
-  //   const input = screen.getByRole("slider");
-  //   await userEvent.click(input);
-  //   await userEvent.type(input, TEXT);
-  //   expect(input).toBeDefined();
-  //   expect((input as HTMLInputElement).value).toBe(TEXT);
-  //   expect(mockedOnChange).toHaveBeenCalled();
-  //   expect(mockedOnChange).toHaveBeenCalledTimes(TEXT.length);
-  // });
+  it("should have value", () => {
+    const mockedOnChange = jest.fn();
+    render(
+      <Slider
+        onChange={mockedOnChange}
+        label="test"        
+        value={10}
+      />
+    );
+    const input = screen.getByRole("slider");
+    expect(input).toHaveValue("10");
+  });
+  it("should have defaultValue", () => {
+    const mockedOnChange = jest.fn();
+    render(
+      <Slider
+        onChange={mockedOnChange}
+        label="test"        
+        defaultValue={10}
+      />
+    );
+    const input = screen.getByRole("slider");
+    expect(input).toHaveValue("10");
+  });
 });
