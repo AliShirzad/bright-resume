@@ -1,3 +1,5 @@
+import React, { ChangeEventHandler } from "react";
+
 export type TypographyVariant =
   | "h1"
   | "h2"
@@ -35,3 +37,10 @@ export type ExperienceProps = {
   onIncrease: () => void;
   onDecrease: (id: string) => void;
 };
+
+export type SliderProps = React.InputHTMLAttributes<HTMLInputElement> & {
+  rootClassName?: string;
+  label?: string;
+  onChange: ChangeEventHandler<HTMLInputElement>;
+};
+
