@@ -1,12 +1,11 @@
 import cls from "classnames";
 
 import classes from "./index.module.scss";
-import Typography from "../Typography";
-import { RadioButtonProps } from "../types/index.type";
+import { RadioButtonProps, Typography } from "@bright-resume/components";
 import { EmptyRadioCircleIcon, CheckedRadioCircleIcon } from "../Icons";
 
 export const RadioButton: React.FC<RadioButtonProps> = ({
-  icon = <EmptyRadioCircleIcon />,
+  icon = <EmptyRadioCircleIcon className={classes.icon} />,
   checkedIcon = <CheckedRadioCircleIcon className={classes.checked__icon} />,
   rootClassName,
   labelVariant = "h9",
@@ -18,7 +17,13 @@ export const RadioButton: React.FC<RadioButtonProps> = ({
   };
 
   return (
-    <label className={cls(classes.root, rootClassName)}>
+    <label
+      className={cls(
+        classes.root,
+        props.disabled ? classes.disabled : "",
+        rootClassName
+      )}
+    >
       {renderIcon()}
       <Typography
         component="input"
@@ -27,7 +32,9 @@ export const RadioButton: React.FC<RadioButtonProps> = ({
         name="radio"
         {...props}
       />
-      <Typography variant={labelVariant}>{label}</Typography>
+      <Typography className={classes.label} variant={labelVariant}>
+        {label}
+      </Typography>
     </label>
   );
 };
